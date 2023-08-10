@@ -92,5 +92,9 @@ if __name__ == "__main__":
     timer.timeout.connect(ui.add_date)
     # Start the timer with a 1000 ms (1 second) interval
     timer.start(1000)
+
+    # Set fixed size to prevent resizing
+    Title.setFixedSize(901, 622)
+
     Title.show()
     sys.exit(app.exec_())
