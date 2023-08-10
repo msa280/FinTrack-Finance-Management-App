@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Title</class>
+ <widget class="QMainWindow" name="Title">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>901</width>
+    <height>622</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>FinTrack Home</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-20</y>
+      <width>901</width>
+      <height>601</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Images/money.jpg</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="datelabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>371</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Reference Sans Serif</family>
+      <pointsize>18</pointsize>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>Date:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="addButton">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>50</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Date</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="removeButton">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>100</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove Date</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>901</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(172, 244, 255)</string>
+   </property>
+   <widget class="QMenu" name="menuSettings">
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(199, 226, 255)</string>
+    </property>
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionSave"/>
+   </widget>
+   <addaction name="menuSettings"/>
+  </widget>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save </string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
