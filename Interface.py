@@ -9,10 +9,11 @@
 
 from datetime import date, datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtCore import QTimer
 
 
 class Ui_Title(object):
+
     def setupUi(self, Title):
         Title.setObjectName("Title")
         Title.resize(901, 622)
@@ -85,5 +86,11 @@ if __name__ == "__main__":
     Title = QtWidgets.QMainWindow()
     ui = Ui_Title()
     ui.setupUi(Title)
+    # Create a QTimer
+    timer = QTimer()
+    # Connect the timeout signal to the update_label method
+    timer.timeout.connect(ui.add_date)
+    # Start the timer with a 1000 ms (1 second) interval
+    timer.start(1000)
     Title.show()
     sys.exit(app.exec_())
