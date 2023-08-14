@@ -1,0 +1,35 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QVBoxLayout, QWidget
+
+class DragDropListApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Drag and Drop List")
+        self.setGeometry(100, 100, 400, 300)
+
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        layout = QVBoxLayout(self.central_widget)
+
+        self.list_widget = QListWidget(self)
+        layout.addWidget(self.list_widget)
+
+        # Add items to the list
+        self.list_widget.addItem("Item 1")
+        self.list_widget.addItem("Item 2")
+        self.list_widget.addItem("Item 3")
+        self.list_widget.addItem("Item 4")
+        self.list_widget.addItem("Item 5")
+
+        # Enable drag and drop
+        self.list_widget.setDragEnabled(True)
+        self.list_widget.setAcceptDrops(True)
+        self.list_widget.setDropIndicatorShown(True)
+        self.list_widget.setDefaultDropAction(True)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = DragDropListApp()
+    window.show()
+    sys.exit(app.exec_())

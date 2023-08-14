@@ -12,7 +12,8 @@ import pandas as pd
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QTableWidgetItem, QListWidget
+from PyQt5.QtGui import QDragEnterEvent, QDropEvent
+from PyQt5.QtWidgets import QListWidget, QTableWidgetItem
 
 
 class ListBoxWidget(QListWidget):
@@ -55,6 +56,7 @@ class Ui_Title(object):
         Title.setObjectName("Title")
         Title.setWindowModality(QtCore.Qt.WindowModal)
         Title.resize(1323, 865)
+        Title.setStyleSheet("background-color: rgb(169, 230, 255)")
         self.centralwidget = QtWidgets.QWidget(Title)
         self.centralwidget.setObjectName("centralwidget")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
@@ -120,19 +122,45 @@ class Ui_Title(object):
         self.tableWidget.setHorizontalHeaderItem(11, item)
         self.verticalLayout.addWidget(self.tableWidget)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.listView = QtWidgets.QListView(self.centralwidget)
-        self.listView.setGeometry(QtCore.QRect(30, 110, 471, 211))
-        self.listView.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
-        self.listView.setStyleSheet("background-color: rgb(208, 208, 208)")
-        self.listView.setObjectName("listView")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(110, 160, 321, 71))
+        self.verticalFrame = QtWidgets.QFrame(self.centralwidget)
+        self.verticalFrame.setGeometry(QtCore.QRect(20, 130, 321, 271))
+        self.verticalFrame.setStyleSheet("background-color: rgb(211, 211, 211)")
+        self.verticalFrame.setObjectName("verticalFrame")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalFrame)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.label = QtWidgets.QLabel(self.verticalFrame)
+        self.label.setStyleSheet("")
         self.label.setObjectName("label")
-        self.widget = QtWidgets.QWidget(self.centralwidget)
-        self.widget.setGeometry(QtCore.QRect(930, 380, 351, 41))
+        self.verticalLayout_2.addWidget(self.label)
+
+
+        self.listWidget = QtWidgets.QListWidget(self.verticalFrame)
+        self.listWidget.setStyleSheet("background-color: rgb(235, 235, 235)")
+        self.listWidget.setObjectName("listWidget")
+        # Enable drag and drop
+        self.listWidget.setAcceptDrops(True)
+        self.listWidget.setDropIndicatorShown(True)
+        # Connect the drag and drop signals
+        self.listWidget.dragEnterEvent = self.dragEnterEvent
+        self.listWidget.dragMoveEvent = self.dragMoveEvent
+        self.listWidget.dropEvent = self.dropEvent
+
+
+
+        self.verticalLayout_2.addWidget(self.listWidget)
+        self.pushButton_2 = QtWidgets.QPushButton(self.verticalFrame)
+        self.pushButton_2.setStyleSheet("font: 75 12pt \"MS Shell Dlg 2\";\n""")
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.verticalLayout_2.addWidget(self.pushButton_2)
+        self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(920, 260, 381, 155))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.widget = QtWidgets.QWidget(self.verticalLayoutWidget)
         self.widget.setObjectName("widget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label_3 = QtWidgets.QLabel(self.widget)
         self.label_3.setObjectName("label_3")
@@ -143,57 +171,64 @@ class Ui_Title(object):
         self.pushButton = QtWidgets.QPushButton(self.widget)
         self.pushButton.setObjectName("pushButton")
         self.horizontalLayout.addWidget(self.pushButton)
-        self.widget_2 = QtWidgets.QWidget(self.centralwidget)
-        self.widget_2.setGeometry(QtCore.QRect(930, 280, 371, 91))
+        self.verticalLayout_3.addWidget(self.widget)
+        self.widget_2 = QtWidgets.QWidget(self.verticalLayoutWidget)
         self.widget_2.setStyleSheet("background-color: rgb(206, 206, 206)")
         self.widget_2.setObjectName("widget_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.widget_2)
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.checkBox_7 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_7.setChecked(True)
         self.checkBox_7.setObjectName("checkBox_7")
         self.gridLayout.addWidget(self.checkBox_7, 1, 2, 1, 1)
+        self.checkBox_6 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_6.setChecked(True)
+        self.checkBox_6.setObjectName("checkBox_6")
+        self.gridLayout.addWidget(self.checkBox_6, 0, 2, 1, 1)
+        self.checkBox_5 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_5.setChecked(True)
+        self.checkBox_5.setObjectName("checkBox_5")
+        self.gridLayout.addWidget(self.checkBox_5, 1, 0, 1, 1)
         self.checkBox_3 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_3.setChecked(True)
         self.checkBox_3.setObjectName("checkBox_3")
         self.gridLayout.addWidget(self.checkBox_3, 0, 1, 1, 1)
+        self.checkBox_11 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_11.setChecked(True)
+        self.checkBox_11.setObjectName("checkBox_11")
+        self.gridLayout.addWidget(self.checkBox_11, 3, 1, 1, 1)
         self.checkBox_9 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_9.setChecked(True)
         self.checkBox_9.setObjectName("checkBox_9")
         self.gridLayout.addWidget(self.checkBox_9, 2, 1, 1, 1)
         self.checkBox_8 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_8.setChecked(True)
         self.checkBox_8.setObjectName("checkBox_8")
         self.gridLayout.addWidget(self.checkBox_8, 2, 2, 1, 1)
-        self.checkBox_10 = QtWidgets.QCheckBox(self.widget_2)
-        self.checkBox_10.setObjectName("checkBox_10")
-        self.gridLayout.addWidget(self.checkBox_10, 0, 0, 1, 1)
-        self.checkBox = QtWidgets.QCheckBox(self.widget_2)
-        self.checkBox.setObjectName("checkBox")
-        self.gridLayout.addWidget(self.checkBox, 2, 0, 1, 1)
         self.checkBox_4 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_4.setChecked(True)
         self.checkBox_4.setObjectName("checkBox_4")
         self.gridLayout.addWidget(self.checkBox_4, 1, 1, 1, 1)
-        self.checkBox_6 = QtWidgets.QCheckBox(self.widget_2)
-        self.checkBox_6.setObjectName("checkBox_6")
-        self.gridLayout.addWidget(self.checkBox_6, 0, 2, 1, 1)
+        self.checkBox = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox.setChecked(True)
+        self.checkBox.setObjectName("checkBox")
+        self.gridLayout.addWidget(self.checkBox, 2, 0, 1, 1)
         self.checkBox_2 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_2.setChecked(True)
         self.checkBox_2.setObjectName("checkBox_2")
         self.gridLayout.addWidget(self.checkBox_2, 3, 0, 1, 1)
-        self.checkBox_11 = QtWidgets.QCheckBox(self.widget_2)
-        self.checkBox_11.setObjectName("checkBox_11")
-        self.gridLayout.addWidget(self.checkBox_11, 3, 1, 1, 1)
         self.checkBox_12 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_12.setChecked(True)
         self.checkBox_12.setObjectName("checkBox_12")
         self.gridLayout.addWidget(self.checkBox_12, 3, 2, 1, 1)
-        self.checkBox_5 = QtWidgets.QCheckBox(self.widget_2)
-        self.checkBox_5.setObjectName("checkBox_5")
-        self.gridLayout.addWidget(self.checkBox_5, 1, 0, 1, 1)
+        self.checkBox_10 = QtWidgets.QCheckBox(self.widget_2)
+        self.checkBox_10.setChecked(True)
+        self.checkBox_10.setObjectName("checkBox_10")
+        self.gridLayout.addWidget(self.checkBox_10, 0, 0, 1, 1)
         self.horizontalLayout_2.addLayout(self.gridLayout)
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(220, 280, 91, 31))
-        self.pushButton_2.setStyleSheet("\n"
-"font: 75 10pt \"MS Shell Dlg 2\";")
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.verticalLayout_3.addWidget(self.widget_2)
         Title.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(Title)
         self.statusbar.setObjectName("statusbar")
@@ -205,8 +240,6 @@ class Ui_Title(object):
         self.menuSettings = QtWidgets.QMenu(self.menuBar)
         self.menuSettings.setStyleSheet("background-color: rgb(199, 226, 255)")
         self.menuSettings.setObjectName("menuSettings")
-        self.menuTools = QtWidgets.QMenu(self.menuBar)
-        self.menuTools.setObjectName("menuTools")
         Title.setMenuBar(self.menuBar)
         self.actionSave = QtWidgets.QAction(Title)
         self.actionSave.setObjectName("actionSave")
@@ -216,11 +249,6 @@ class Ui_Title(object):
         self.menuSettings.addSeparator()
         self.menuSettings.addAction(self.actionQuit)
         self.menuBar.addAction(self.menuSettings.menuAction())
-        self.menuBar.addAction(self.menuTools.menuAction())
-
-        conn = self.read_and_connect()
-        results = self.run_query(conn)
-        self.populate_table(results)
 
         self.retranslateUi(Title)
         QtCore.QMetaObject.connectSlotsByName(Title)
@@ -255,25 +283,45 @@ class Ui_Title(object):
         item = self.tableWidget.horizontalHeaderItem(11)
         item.setText(_translate("Title", "Foreign Currency Amount"))
         self.label.setText(_translate("Title", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:600; color:#15008f;\">Drop Bank Statement</span></p><p align=\"center\"><span style=\" font-size:12pt; color:#15008f;\">(Supported: .xlsx)</span></p></body></html>"))
+        self.pushButton_2.setText(_translate("Title", "Submit"))
         self.label_3.setText(_translate("Title", "<html><head/><body><p align=\"right\"><span style=\" font-size:10pt; font-weight:600;\">Search:</span></p></body></html>"))
         self.pushButton.setText(_translate("Title", "View Results"))
         self.checkBox_7.setText(_translate("Title", "To/From Account"))
+        self.checkBox_6.setText(_translate("Title", "Balance"))
+        self.checkBox_5.setText(_translate("Title", "P. Date"))
         self.checkBox_3.setText(_translate("Title", "Particulars"))
+        self.checkBox_11.setText(_translate("Title", "Amount"))
         self.checkBox_9.setText(_translate("Title", "References"))
         self.checkBox_8.setText(_translate("Title", "Coversion Charge"))
-        self.checkBox_10.setText(_translate("Title", "T. Date"))
-        self.checkBox.setText(_translate("Title", "T. Type"))
         self.checkBox_4.setText(_translate("Title", "Code"))
-        self.checkBox_6.setText(_translate("Title", "Balance"))
+        self.checkBox.setText(_translate("Title", "T. Type"))
         self.checkBox_2.setText(_translate("Title", "Details"))
-        self.checkBox_11.setText(_translate("Title", "Amount"))
         self.checkBox_12.setText(_translate("Title", "Foreign Currency "))
-        self.checkBox_5.setText(_translate("Title", "P. Date"))
-        self.pushButton_2.setText(_translate("Title", "Submit"))
+        self.checkBox_10.setText(_translate("Title", "T. Date"))
         self.menuSettings.setTitle(_translate("Title", "File"))
-        self.menuTools.setTitle(_translate("Title", "Tools"))
         self.actionSave.setText(_translate("Title", "Save "))
         self.actionQuit.setText(_translate("Title", "Quit"))
+
+    def dragEnterEvent(self, event: QDragEnterEvent):
+        mime_data = event.mimeData()
+        if mime_data.hasUrls():
+            event.acceptProposedAction()
+
+    def dropEvent(self, event: QDropEvent):
+        mime_data = event.mimeData()
+        if mime_data.hasUrls():
+            urls = mime_data.urls()
+            for url in urls:
+                if url.isLocalFile():
+                    self.listWidget.addItem(url.toLocalFile())
+
+    def dragMoveEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+        else:
+            event.ignore()
+
 
     def read_and_connect(self):
         # Read Excel data into a DataFrame
@@ -309,6 +357,7 @@ class Ui_Title(object):
                 item = QTableWidgetItem(str(cell_data))
                 item.setTextAlignment(Qt.AlignCenter)
                 self.tableWidget.setItem(row_idx, col_idx, item)
+
 
 
 if __name__ == "__main__":

@@ -13,7 +13,43 @@ import pandas as pd
 import sqlite3
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtWidgets import QTableWidgetItem, QListWidget
+
+
+class ListBoxWidget(QListWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAcceptDrops(True)
+        self.resize(600, 600)
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.accept()
+        else:
+            event.ignore()
+
+    def dragMoveEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+
+            links = []
+            for url in event.mimeData().urls():
+                # https://doc.qt.io/qt-5/qurl.html
+                if url.isLocalFile():
+                    links.append(str(url.toLocalFile()))
+                else:
+                    links.append(str(url.toString()))
+            self.addItems(links)
+        else:
+            event.ignore()
 
 
 class Ui_Title(object):
@@ -138,39 +174,6 @@ class Ui_Title(object):
         self.actionQuit.setText(_translate("Title", "Quit"))
 
 
-    def read_and_connect(self):
-        # Read Excel data into a DataFrame
-        excel_file = 'states.xlsx'
-        df = pd.read_excel(excel_file)
-
-        # Create an in-memory SQLite database
-        conn = sqlite3.connect(':memory:')
-        df.to_sql('my_table', conn, index=False)
-
-        return conn
-
-    def run_query(self, conn):
-        # Run SQL queries using pandas and SQLite
-        query = '''SELECT * FROM my_table'''
-        results = pd.read_sql_query(query, conn)
-        conn.close()
-        return results
-
-
-    def populate_table(self, results):
-        # Set the table widget dimensions
-        num_rows, num_cols = results.shape
-        self.tableWidget.setRowCount(num_rows)
-        self.tableWidget.setColumnCount(num_cols)
-
-        # Populate the QTableWidget
-        for row_idx, row_data in enumerate(results.values):
-            for col_idx, cell_data in enumerate(row_data):
-
-
-                item = QTableWidgetItem(str(cell_data))
-                item.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget.setItem(row_idx, col_idx, item)
 
 
 
