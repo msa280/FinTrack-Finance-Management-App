@@ -1,38 +1,93 @@
-import camelot
-import zipfile
-import pandas as pd
-import os
+from PyQt5.QtCore import Qt
+from sqlalchemy import create_engine  # pip install SQLAlchemy
+from sqlalchemy.engine import URL
+import pypyodbc  # pip install pypyodbc
+import pandas as pd  # pip install pandas
+import pyodbc
+import sqlite3
+import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+import plotly.express as px
+from openpyxl import Workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
 
-def convert_and_zip(filepath):
-    tables = camelot.read_pdf(filepath, pages='1-end', flavor='stream', strip_text='\n')
-    print(tables)
-    tables.export('statement.csv', f='csv', compress=True)
+import sys
+import sqlite3
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from PyQt5.QtChart import QChartView, QChart, QPieSeries, QPieSlice
 
-    all_tables = []
 
-    for table in tables:
-        df = table.df
-        all_tables.append(df)
+class TransactionPieChartApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-    if all_tables:
-        combined_table = pd.concat(all_tables, ignore_index=True)
-        excel_path = 'statement.xlsx'
-        combined_table.to_excel(excel_path, index=False)
-        print(f"Combined table exported to {excel_path}")
+        self.setWindowTitle("Transaction Pie Chart")
+        self.setGeometry(100, 100, 800, 600)
 
-    df = pd.read_excel('statement.xlsx', sheet_name=0)  # reads the first sheet of your excel file
-    df = df[(df['Country'] == 'UK') & (df['Status'] == 'Yes')]  # Filtering dataframe
-    df.to_excel('file.xlsx', sheet_name='Filtered Data')  # Saving to a new sheet called Filtered Data
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+
+        layout = QVBoxLayout(self.central_widget)
+
+        # Create a QChart and QChartView
+        chart = QChart()
+        chart.setTitle("Distribution of Transactions by Business Code")
+        chart_view = QChartView(chart)
+        layout.addWidget(chart_view)
+
+        conn = self.read_and_connect()
+        query_results = self.run_query(conn)
+
+
+        conn.close()
+
+        # Extract data for plotting
+        #labels = x_data
+        #sizes = y_data
+
+        # Create a QPieSeries and add slices
+        #series = QPieSeries()
+        #for label, size in zip(labels, sizes):
+        #    slice = QPieSlice(label, size)
+        #    series.append(slice)
+
+        # Add the series to the chart
+        #chart.addSeries(series)
+        chart.legend().setVisible(True)
+        chart.legend().setAlignment(Qt.AlignBottom)
+
+        self.show()
+
+
+    def run_query(self, conn):
+        # Run SQL queries using pandas and SQLite
+        query = '''
+                                      SELECT "Code", COUNT(*) AS TotalTransactions
+                                      FROM my_table
+                                      GROUP BY "Code"
+                                      ORDER BY TotalTransactions DESC
+                                  '''
+        results = conn.execute(query)
+        return results
+
+
+
+    def read_and_connect(self):
+        # Read Excel data into a DataFrame
+        excel_file = 'states.xlsx'
+        df = pd.read_excel(excel_file)
+
+        # Create an in-memory SQLite database
+        conn = sqlite3.connect(':memory:')
+        df.to_sql('my_table', conn, index=False)
+
+        return conn
 
 def main():
-    filepath = "statement.pdf"
-    convert_and_zip(filepath)
-
-main()
-
+    app = QApplication(sys.argv)
+    window = TransactionPieChartApp()
+    sys.exit(app.exec_())
 
 
-
-
-
-
+if __name__ == "__main__":
+    main()
