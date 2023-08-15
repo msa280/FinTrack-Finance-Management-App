@@ -1,0 +1,7 @@
+Top Spending Categories: (Number of Codes Count(), Code)
+Transaction Trends: (x-axis: Month/Year, Y-Axis:Amount)
+Monthly Expenditure Pie Chart: (Code / Code Counts for a specific month/year eg 07/2022
+Balance Changes: (x-axis: Month/Year, Y-Axis:Balance)
+Transaction Types Pie Chart: (Type, Type Count)
+
+
