@@ -11,7 +11,13 @@ import pandas as pd
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
-from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtWidgets import QTableWidgetItem, QWidget, QVBoxLayout
+from matplotlib import pyplot as plt
+from matplotlib.backends.backend_template import FigureCanvas
+from matplotlib.figure import Figure
+from Graph import GraphWindow
+from sqlalchemy import create_engine
+
 
 
 class Ui_Title(object):
@@ -83,6 +89,7 @@ class Ui_Title(object):
         self.tableWidget.setHorizontalHeaderItem(10, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(11, item)
+
         self.verticalLayout.addWidget(self.tableWidget)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalFrame = QtWidgets.QFrame(self.centralwidget)
@@ -245,14 +252,17 @@ class Ui_Title(object):
         item.setText(_translate("Title", "Conversion Charge"))
         item = self.tableWidget.horizontalHeaderItem(11)
         item.setText(_translate("Title", "Foreign Currency Amount"))
+
         self.label.setText(_translate("Title", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:600; color:#15008f;\">Drop Bank Statement</span></p><p align=\"center\"><span style=\" font-size:12pt; color:#15008f;\">(Supported: .xlsx)</span></p></body></html>"))
 
         self.pushButton_2.setText(_translate("Title", "Submit"))
-        self.pushButton_2.clicked.connect(self.submit_button_clicked)
+        connection = self.submit_button_clicked
+        self.pushButton_2.clicked.connect(connection)
 
 
         self.label_3.setText(_translate("Title", "<html><head/><body><p align=\"right\"><span style=\" font-size:10pt; font-weight:600;\">Search:</span></p></body></html>"))
         self.pushButton.setText(_translate("Title", "View Results"))
+        self.pushButton.clicked.connect(lambda: self.open_window())
 
         self.checkBox_7.setText(_translate("Title", "To/From Account"))
         self.checkBox_6.setText(_translate("Title", "Balance"))
@@ -276,16 +286,6 @@ class Ui_Title(object):
 
         for i, check_box in enumerate(checkBoxList):
             check_box.clicked.connect(lambda state, index=i: self.toggle_column(state, index))
-
-        self.category_mapping = {
-            'KFC': 'Food',
-            'Mcdo': 'Food',
-            'Uber': 'Transportation',
-            'Pak N Save': 'Groceries',
-            'Caltex': 'Fuel',
-            'Transfer': 'Transfer',
-            # Add more keywords and their respective categories
-        }
 
 
 
@@ -313,11 +313,12 @@ class Ui_Title(object):
     def read_and_connect(self, path):
         # Read Excel data into a DataFrame
         df = pd.read_excel(path)
+        #df['Item Type'] = df['Code'].apply(self.classify_transaction)
         # Create an in-memory SQLite database
         conn = sqlite3.connect(':memory:')
         df.to_sql('my_table', conn, index=False)
-        df['Item Type'] = df['Code'].apply(self.classify_transaction)
         return conn
+
 
     def submit_button_clicked(self):
         selected_item = self.listWidget.currentItem()
@@ -334,17 +335,31 @@ class Ui_Title(object):
         conn.close()
         return results
 
+    def open_window(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = GraphWindow()
+        self.ui.setupUi(self.window)
+        self.window.show()
 
 
     # Function to classify transactions
-    def classify_transaction(self, transaction):
-        for keyword, category in self.category_mapping.items():
-            if keyword.lower() in transaction.lower():
-                return category
-        return 'Uncategorized'  # Default category if no match is found
-
-
-
+    def classify_transaction(self, code):
+        # Your classification logic here
+        # Return the corresponding item type based on the code
+        # Example:
+        category_mapping = {
+            'KFC': 'Food',
+            'Mcdo': 'Food',
+            'Uber': 'Transportation',
+            'Pak N Save': 'Groceries',
+            'Caltex': 'Fuel',
+            'Transfer': 'Transfer',
+            # Add more keywords and their respective categories
+        }
+        for key, value in category_mapping.items():
+            if key.lower() in code.lower():
+                return value
+        return '-'
 
 
     def toggle_column(self, state, col):
@@ -354,7 +369,19 @@ class Ui_Title(object):
             self.tableWidget.setColumnHidden(col, True)  # 2 corresponds to Checked state
 
 
-
+    def display_monthly_expenditures(self):
+        selected_item = self.listWidget.currentItem()
+        if selected_item:
+            file_path = selected_item.text()
+            conn = self.read_and_connect(file_path)
+            query = '''SELECT "Code", COUNT(*) AS CodeCount
+                FROM my_table
+                GROUP BY "Code"
+                ORDER BY CodeCount DESC
+                LIMIT 12
+            '''
+            results = pd.read_sql_query(query, conn)
+            conn.close()
 
     def populate_table(self, results):
         # Set the table widget dimensions
@@ -371,8 +398,6 @@ class Ui_Title(object):
                 item = QTableWidgetItem(str(cell_data))
                 item.setTextAlignment(Qt.AlignCenter)
                 self.tableWidget.setItem(row_idx, col_idx, item)
-
-
 
 
 
