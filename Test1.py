@@ -295,11 +295,8 @@ class Ui_Title(object):
         self.checkBox_5.setText(_translate("Title", "P. Date"))
         self.checkBox_3.setText(_translate("Title", "Particulars"))
         self.checkBox_11.setText(_translate("Title", "Amount"))
-
-        self.checkBox_11.clicked.connect(lambda: self.toggle_column(self.checkBox_11.isChecked(), 7))
-
         self.checkBox_9.setText(_translate("Title", "References"))
-        self.checkBox_8.setText(_translate("Title", "Coversion Charge"))
+        self.checkBox_8.setText(_translate("Title", "Conversion Charge"))
         self.checkBox_4.setText(_translate("Title", "Code"))
         self.checkBox.setText(_translate("Title", "T. Type"))
         self.checkBox_2.setText(_translate("Title", "Details"))
@@ -308,6 +305,15 @@ class Ui_Title(object):
         self.menuSettings.setTitle(_translate("Title", "File"))
         self.actionSave.setText(_translate("Title", "Save "))
         self.actionQuit.setText(_translate("Title", "Quit"))
+
+        checkBoxList = [self.checkBox_10, self.checkBox_5, self.checkBox, self.checkBox_2
+                        , self.checkBox_3, self.checkBox_4, self.checkBox_9, self.checkBox_11,
+                        self.checkBox_6, self.checkBox_7, self.checkBox_8, self.checkBox_12]
+
+        for i, check_box in enumerate(checkBoxList):
+            check_box.clicked.connect(lambda state, index=i: self.toggle_column(state, index))
+            
+
 
 
     def submit_button_clicked(self):
@@ -383,7 +389,7 @@ class Ui_Title(object):
                 item.setTextAlignment(Qt.AlignCenter)
                 self.tableWidget.setItem(row_idx, col_idx, item)
 
-        self.tableWidget.setColumnHidden(1, True)
+
 
 
 
