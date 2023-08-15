@@ -283,7 +283,11 @@ class Ui_Title(object):
         item = self.tableWidget.horizontalHeaderItem(11)
         item.setText(_translate("Title", "Foreign Currency Amount"))
         self.label.setText(_translate("Title", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:600; color:#15008f;\">Drop Bank Statement</span></p><p align=\"center\"><span style=\" font-size:12pt; color:#15008f;\">(Supported: .xlsx)</span></p></body></html>"))
+
         self.pushButton_2.setText(_translate("Title", "Submit"))
+        self.pushButton_2.clicked.connect(self.submit_button_clicked)
+
+
         self.label_3.setText(_translate("Title", "<html><head/><body><p align=\"right\"><span style=\" font-size:10pt; font-weight:600;\">Search:</span></p></body></html>"))
         self.pushButton.setText(_translate("Title", "View Results"))
         self.checkBox_7.setText(_translate("Title", "To/From Account"))
@@ -291,6 +295,9 @@ class Ui_Title(object):
         self.checkBox_5.setText(_translate("Title", "P. Date"))
         self.checkBox_3.setText(_translate("Title", "Particulars"))
         self.checkBox_11.setText(_translate("Title", "Amount"))
+
+        self.checkBox_11.clicked.connect(lambda: self.toggle_column(self.checkBox_11.isChecked(), 7))
+
         self.checkBox_9.setText(_translate("Title", "References"))
         self.checkBox_8.setText(_translate("Title", "Coversion Charge"))
         self.checkBox_4.setText(_translate("Title", "Code"))
@@ -301,6 +308,15 @@ class Ui_Title(object):
         self.menuSettings.setTitle(_translate("Title", "File"))
         self.actionSave.setText(_translate("Title", "Save "))
         self.actionQuit.setText(_translate("Title", "Quit"))
+
+
+    def submit_button_clicked(self):
+        selected_item = self.listWidget.currentItem()
+        if selected_item:
+            file_path = selected_item.text()
+            conn = self.read_and_connect(file_path)
+            results = self.run_query(conn)
+            self.populate_table(results)
 
     def dragEnterEvent(self, event: QDragEnterEvent):
         mime_data = event.mimeData()
@@ -323,9 +339,10 @@ class Ui_Title(object):
             event.ignore()
 
 
-    def read_and_connect(self):
+    def read_and_connect(self, path):
         # Read Excel data into a DataFrame
-        excel_file = 'states.xlsx'
+        excel_file = path
+        print(excel_file)
         df = pd.read_excel(excel_file)
 
         # Create an in-memory SQLite database
@@ -340,6 +357,14 @@ class Ui_Title(object):
         results = pd.read_sql_query(query, conn)
         conn.close()
         return results
+
+    def toggle_column(self, state, col):
+        if (state == True):
+            self.tableWidget.setColumnHidden(col, False)  # 2 corresponds to Checked state
+        else:
+            self.tableWidget.setColumnHidden(col, True)  # 2 corresponds to Checked state
+
+
 
 
     def populate_table(self, results):
@@ -357,6 +382,8 @@ class Ui_Title(object):
                 item = QTableWidgetItem(str(cell_data))
                 item.setTextAlignment(Qt.AlignCenter)
                 self.tableWidget.setItem(row_idx, col_idx, item)
+
+        self.tableWidget.setColumnHidden(1, True)
 
 
 
