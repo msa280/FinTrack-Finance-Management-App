@@ -2,6 +2,7 @@ import sys
 import random
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QVBoxLayout
+from matplotlib import pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -33,25 +34,37 @@ class GraphWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Graph Display"))
 
-    def display_random_chart(self):
+
+
+    def display_random_chart(self, tag, results):
+
         self.figure.clear()
 
-        # Generate random data for the chart
-        num_values = 5
-        labels = [f"Category {i}" for i in range(1, num_values + 1)]
-        values = [random.randint(1, 100) for _ in range(num_values)]
+        if (tag == "tt"):
 
-        # Create a bar chart using the random data
-        ax = self.figure.add_subplot(111)
-        ax.bar(labels, values)
+            labels = results['YearMonth'].tolist()
+            sizes = results['TotalAmount'].tolist()
 
-        # Set labels and title
-        ax.set_xlabel("Categories")
-        ax.set_ylabel("Values")
-        ax.set_title("Random Bar Chart")
+            # Customize bar colors and width
+            bar_colors = ['red' if value < 0 else 'blue' for value in sizes]
+            bar_width = 0.4
 
-        # Redraw the canvas to display the updated chart
-        self.canvas.draw()
+            # Create a bar chart using the random data
+            ax = self.figure.add_subplot(111)
+            ax.bar(labels, sizes, color=bar_colors, width=bar_width)
+
+            ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: "{:,}".format(int(x))))
+
+            # Set labels and title
+            ax.set_xlabel("YearMonth")
+            ax.set_ylabel("Sizes")
+            ax.set_title("Transaction Amounts - All Time")
+
+            # Redraw the canvas to display the updated chart
+            self.canvas.draw()
+
+
+
 
 
     def display_pie_chart(self, tag, results, date=None):
@@ -114,13 +127,13 @@ class GraphWindow(object):
                 colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'yellowgreen', 'gold', 'lightskyblue',
                           'lightcoral']
 
-                patches, texts, autotexts = ax.pie(
+                patches, texts, _ = ax.pie(
                     sizes,
                     autopct='',
                     startangle=90,
                     colors=colors,
                     radius=1,
-                    wedgeprops={"edgecolor": "black"},  # Set edgecolor to "white" for seamless appearance
+                    wedgeprops={"edgecolor": "black"},  # Set edge color to "white" for seamless appearance
                 )
 
                 legend_labels = ['{} {}s'.format(size, label) for label, size in zip(labels, sizes)]
@@ -128,10 +141,6 @@ class GraphWindow(object):
                 ax.legend(legend_labels, title="Payment Types", loc='upper left')
                 # Set aspect ratio to be equal so that pie is drawn as a circle.
                 ax.axis('equal')
-
-
-
-
 
 
         # Adjust subplot position and size to center and make the pie chart bigger
@@ -145,24 +154,88 @@ class GraphWindow(object):
         self.canvas.draw()
 
 
-    def display_line_plot(self):
+
+    def display_line_plot(self, tag, results):
+
         self.figure.clear()
 
-        # Generate data for the line plot
-        x = [1, 2, 3, 4, 5]
-        y = [10, 23, 18, 32, 25]
-
-        # Create a line plot using the data
         ax = self.figure.add_subplot(111)
-        ax.plot(x, y, marker='o')
 
-        # Set labels and title
-        ax.set_xlabel("X Axis")
-        ax.set_ylabel("Y Axis")
-        ax.set_title("Line Plot")
+        if (tag == "bc"):
+            # Generate data for the line plot
+            labels = results['YearMonth'].tolist()
+            sizes = results['AverageBalance'].tolist()
+
+            # Create a line plot using the data
+            ax.plot(labels, sizes, marker='o')
+
+            ax.plot(labels, sizes, marker='o', color='limegreen', linestyle='-', linewidth=2, markersize=8,
+                    label='Average Balance')
+
+            # Customize x-axis tick labels
+            ax.set_xticks(range(len(labels)))  # Set tick positions
+            ax.set_xticklabels(labels, rotation=45, ha='right')
+
+            # Customize y-axis formatting
+            ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: "${:,.2f}".format(x)))
+
+            # Add a grid
+            ax.grid(which='major', linestyle='--', linewidth=0.45, color='blue', alpha=0.8)
+            ax.legend()
+
+            # Add data labels to markers
+            for label, size in zip(labels, sizes):
+                ax.text(label, size, f"{size:.2f}", ha='center', va='top', fontsize=10, color='red')
+
+            # Tight layout for better appearance
+            plt.tight_layout()
+
+            # Set labels and title
+            ax.set_xlabel("Year-Month")
+            ax.set_ylabel("Average Balance / Month")
+            ax.set_title("Average Monthly Balances")
+
+
+        elif (tag == "dtt"):
+
+            # Generate data for the line plot
+            labels = results['YearMonth'].tolist()
+            sizes = results['Count'].tolist()
+
+            # Create a line plot using the data
+            ax.plot(labels, sizes, marker='o')
+
+            ax.plot(labels, sizes, marker='o', color='limegreen', linestyle='-', linewidth=2, markersize=8,
+                    label='Average Balance')
+
+            # Customize x-axis tick labels
+            ax.set_xticks(range(len(labels)))  # Set tick positions
+            ax.set_xticklabels(labels, rotation=45, ha='right')
+
+            # Customize y-axis formatting
+            ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: "${:,.2f}".format(x)))
+
+            # Add a grid
+            ax.grid(which='major', linestyle='--', linewidth=0.45, color='blue', alpha=0.8)
+            ax.legend()
+
+            # Add data labels to markers
+            for label, size in zip(labels, sizes):
+                ax.text(label, size, f"{size:.2f}", ha='center', va='top', fontsize=10, color='red')
+
+            # Tight layout for better appearance
+            plt.tight_layout()
+
+            # Set labels and title
+            ax.set_xlabel("Year-Month")
+            ax.set_ylabel("Average Balance / Month")
+            ax.set_title("Average Monthly Balances")
+
 
         # Redraw the canvas to display the updated plot
         self.canvas.draw()
+
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

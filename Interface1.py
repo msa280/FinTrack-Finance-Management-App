@@ -427,11 +427,27 @@ class Ui_Title(object):
         self.control_table_columns()
         self.control_file_drag_drop()
         self.button_hover_hand_effect()
+        self.search_button_activate()
 
     def button_hover_hand_effect(self):
         self.pushButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.pushButton_2.setCursor(QCursor(Qt.PointingHandCursor))
         self.pushButton_3.setCursor(QCursor(Qt.PointingHandCursor))
+
+
+    def search_button_activate(self):
+        self.pushButton.clicked.connect(self.press_search_button)
+
+
+    def press_search_button(self):
+        search_term = self.lineEdit.text().strip()
+        if (search_term == ''):
+            self.textBrowser.append('<font color="red"><b>Error: Enter a search term.</b></font>')
+        else:
+            self.query_filter_table(search_term)
+
+
+
 
     def press_display_graph(self):
         self.pushButton_3.clicked.connect(self.control_radio_buttons)
@@ -446,17 +462,38 @@ class Ui_Title(object):
         elif self.radioButton_2.isChecked():
             self.query_monthly_spending()
             self.open_window("ms")
+        elif self.radioButton_3.isChecked():
+            self.query_transaction_trends_all_time()
+            self.open_window("tt")
+        elif self.radioButton_5.isChecked():
+            self.query_balance_changes_over_time()
+            self.open_window("bc")
+        elif self.radioButton_6.isChecked():
+            self.query_delayed_transaction_trends()
+            self.open_window("dtt")
 
 
     def open_window(self, radiobtn):
+
         if (radiobtn == "tsc") and (self.results is not None):
             self.ui.display_pie_chart("tsc", self.results)
+
         elif (radiobtn == "tpm") and (self.results is not None):
             self.ui.display_pie_chart("tpm", self.results)
+
         elif (radiobtn == "ms") and (self.results is not None):
             selected_date = self.dateEdit.date().toPyDate()
             selected_month_year = selected_date.strftime("%Y-%m")
             self.ui.display_pie_chart("ms", self.results, selected_month_year)
+
+        elif (radiobtn == "tt") and (self.results is not None):
+            self.ui.display_random_chart("tt", self.results)
+
+        elif (radiobtn == "bc") and (self.results is not None):
+            self.ui.display_line_plot("bc", self.results)
+
+        elif (radiobtn == "dtt") and (self.results is not None):
+            self.ui.display_line_plot("dtt", self.results)
 
         self.window.show()
 
@@ -507,6 +544,7 @@ class Ui_Title(object):
         # df['Item Type'] = df['Code'].apply(self.classify_transaction)
         df.to_sql('my_table', self.conn, index=False)
 
+
     def read_and_load_uploaded_file(self):
         selected_item = self.listWidget.currentItem()
         if selected_item:
@@ -527,6 +565,45 @@ class Ui_Title(object):
         # Run SQL queries using pandas and SQLite
         query = '''SELECT * FROM my_table'''
         self.results = pd.read_sql_query(query, self.conn)
+
+
+    def query_filter_table(self, search_text):
+        if (search_text == ''):
+            self.textBrowser.append("Error: Enter a search query.")
+        else:
+            for row in range(self.tableWidget.rowCount()):
+                row_text = " ".join(
+                    [self.tableWidget.item(row, col).text() for col in range(self.tableWidget.columnCount())])
+                if search_text.lower() in row_text.lower():
+                    self.tableWidget.setRowHidden(row, False)
+                else:
+                    self.tableWidget.setRowHidden(row, True)
+
+
+
+
+
+
+    def query_delayed_transaction_trends(self):
+        query = '''SELECT strftime('%Y-%m', `Transaction Date`) AS YearMonth, COUNT(*) AS Count
+                       FROM my_table
+                       WHERE `Processed Date` IS NOT NULL
+                       AND strftime('%Y-%m', `Transaction Date`) != strftime('%Y-%m', `Processed Date`)
+                       GROUP BY YearMonth
+                       ORDER BY YearMonth;
+                '''
+        self.results = pd.read_sql_query(query, self.conn)
+
+
+    def query_balance_changes_over_time(self):
+        query = '''SELECT strftime('%Y-%m', `Transaction Date`) AS YearMonth,
+                       AVG(Balance) AS AverageBalance
+                   FROM my_table
+                   GROUP BY YearMonth
+                   ORDER BY YearMonth;
+                '''
+        self.results = pd.read_sql_query(query, self.conn)
+
 
     def query_top_payment_methods(self):
         print("Pressed!!")
@@ -566,15 +643,16 @@ class Ui_Title(object):
 
 
     def query_transaction_trends_all_time(self):
-        query = f'''SELECT Code, COUNT(*) AS TotalCount, SUM(Amount) AS TotalAmount
-                        FROM my_table
-                        WHERE strftime('%Y-%m', `Transaction Date`) = '{selected_month_year}'
-                        AND Amount < 0
-                        GROUP BY Code
-                        ORDER BY TotalAmount
-                        LIMIT 10;
-                    '''
+        query = '''SELECT strftime('%Y-%m', `Transaction Date`) AS YearMonth,
+                           SUM(Amount) AS TotalAmount
+                    FROM my_table
+                    WHERE Amount < 0 
+                    GROUP BY YearMonth
+                    ORDER BY YearMonth
+                    LIMIT 10;
+                '''
         self.results = pd.read_sql_query(query, self.conn)
+        print(self.results.to_string(index=False))
 
 
     # Function to classify transactions
