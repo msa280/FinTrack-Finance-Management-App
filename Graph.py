@@ -8,7 +8,7 @@ from matplotlib.figure import Figure
 class GraphWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(678, 600)
+        MainWindow.resize(778, 900)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -28,11 +28,6 @@ class GraphWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        # Display the graph when the MainWindow is created
-
-        #self.display_random_chart()
-        #self.display_random_pie_chart()
-        #self.display_line_plot()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -59,26 +54,85 @@ class GraphWindow(object):
         self.canvas.draw()
 
 
+    def display_pie_chart(self, tag, results, date=None):
 
-    def display_random_pie_chart(self):
+        self.figure.clear()  # Very important. Clears the figure on from the previous query.
+
         # Generate random data for the pie chart
-        num_slices = 4
-        labels = [f"Slice {i}" for i in range(1, num_slices + 1)]
-        sizes = [random.randint(1, 100) for _ in range(num_slices)]
+        colors = ['crimson', 'yellow', 'chartreuse', 'dodgerblue', 'darkorange', 'cyan', 'magenta', 'blueviolet',
+                  'ghostwhite', 'gold', 'lime', 'blue', 'teal', 'turquoise', 'silver']
 
         # Create a pie chart using the random data
         ax = self.figure.add_subplot(122, aspect="equal")
-        ax.pie(
-            sizes,
-            labels=labels,
-            autopct="%1.1f%%",
-            shadow=False,
-            startangle=90,
-            wedgeprops={"edgecolor": "black"},  # Set edgecolor to "white" for seamless appearance
-        )
 
-        # Set title
-        ax.set_title("Random Pie Chart")
+        if (tag == "tsc" or tag == "ms"):
+
+            labels = results['Code'].tolist()
+            counts = results['TotalCount'].tolist()
+            amounts = results['TotalAmount'].tolist()
+
+            new_amounts = []
+            for amount in amounts:
+                if amount < 0:
+                    amount *= -1
+                    new_amounts.append(amount)
+                else:
+                    new_amounts.append(amount)
+
+            patches, texts, autotexts = ax.pie(
+                new_amounts,  # We multiply by -1 because wedge sizes cant be negative
+                autopct='',
+                startangle=90,
+                colors=colors,
+                radius=1,
+                wedgeprops={"edgecolor": "black"},  # Set edgecolor to "white" for seamless appearance
+            )
+
+            legend_labels = ['{} - {} Transactions - ${}'.format(code, count, amount) for code, count, amount in
+                             zip(labels, counts, amounts)]
+            # Add legend to the best location
+
+            if (tag == "ms"):
+                month_dict = {'01': 'January', '02': 'February', '03': 'March', '04': 'April', '05': 'May',
+                              '06': 'June', '07': 'July', '08': 'August', '09': 'September', '10': 'October',
+                              '11': 'November', '12': 'December'}
+                year, month = date.split("-")
+                ax.set_title("Transactions for {}, {}".format(month_dict[month], year))
+                ax.legend(legend_labels, title="Monthly Summary", loc='upper left')
+            else:
+                ax.set_title("Transactions - All Time")
+                ax.legend(legend_labels, title="Transaction Breakout", loc='upper left')
+
+            # Set aspect ratio to be equal so that pie is drawn as a circle.
+            ax.axis('equal')
+
+
+        elif (tag == "tpm"):
+                labels = results['Type'].tolist()
+                sizes = results['TotalTypes'].tolist()
+                ax.set_title("Top Payment Methods")
+                colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'yellowgreen', 'gold', 'lightskyblue',
+                          'lightcoral']
+
+                patches, texts, autotexts = ax.pie(
+                    sizes,
+                    autopct='',
+                    startangle=90,
+                    colors=colors,
+                    radius=1,
+                    wedgeprops={"edgecolor": "black"},  # Set edgecolor to "white" for seamless appearance
+                )
+
+                legend_labels = ['{} {}s'.format(size, label) for label, size in zip(labels, sizes)]
+                # Add legend to the best location
+                ax.legend(legend_labels, title="Payment Types", loc='upper left')
+                # Set aspect ratio to be equal so that pie is drawn as a circle.
+                ax.axis('equal')
+
+
+
+
+
 
         # Adjust subplot position and size to center and make the pie chart bigger
         # Adjust subplot position and size to center and make the pie chart 2 times bigger
@@ -87,7 +141,6 @@ class GraphWindow(object):
         width = 0.6 * 1.7  # Making the pie chart 2 times wider
         height = 0.6 * 1.7  # Making the pie chart 2 times taller
         ax.set_position([left, bottom, width, height])
-
         # Redraw the canvas to display the updated chart
         self.canvas.draw()
 

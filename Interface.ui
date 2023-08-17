@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1341</width>
-    <height>853</height>
+    <width>1333</width>
+    <height>942</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,9 +27,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>-20</y>
       <width>1351</width>
-      <height>841</height>
+      <height>931</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -147,6 +147,7 @@
          <property name="styleSheet">
           <string notr="true">background-color: rgb(236, 234, 234);
 font: 75 8pt &quot;MS Shell Dlg 2&quot;;
+ border: 1px solid black; 
 </string>
          </property>
          <property name="autoScrollMargin">
@@ -258,7 +259,8 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;
          <bool>true</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(235, 235, 235)</string>
+         <string notr="true">background-color: rgb(235, 235, 235);
+border: 1px solid black;</string>
         </property>
        </widget>
       </item>
@@ -267,9 +269,17 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;
         <property name="enabled">
          <bool>true</bool>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">font: 87 11pt &quot;Arial&quot;;
-background-color: rgb(69, 255, 84);</string>
+background-color: rgb(69, 255, 84);
+border: 1.5px solid black;
+font-weight: 600;</string>
         </property>
         <property name="text">
          <string>Submit</string>
@@ -285,17 +295,40 @@ background-color: rgb(69, 255, 84);</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>240</y>
-       <width>451</width>
-       <height>161</height>
+       <y>233</y>
+       <width>441</width>
+       <height>171</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgb(216, 216, 216);</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="2" column="0" colspan="2">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Data Visualiaztion&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QRadioButton" name="radioButton_4">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+          </property>
+          <property name="text">
+           <string>Top Spending Categories</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="0">
          <widget class="QRadioButton" name="radioButton_3">
           <property name="enabled">
@@ -306,45 +339,6 @@ background-color: rgb(69, 255, 84);</string>
           </property>
           <property name="text">
            <string>Transaction Trends</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QRadioButton" name="radioButton_2">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-          </property>
-          <property name="text">
-           <string>Monthly Transactions</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QRadioButton" name="radioButton_5">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-          </property>
-          <property name="text">
-           <string>Balance Changes</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QRadioButton" name="radioButton_6">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-          </property>
-          <property name="text">
-           <string>Delayed Transaction Trends</string>
           </property>
          </widget>
         </item>
@@ -361,8 +355,8 @@ background-color: rgb(69, 255, 84);</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QRadioButton" name="radioButton_4">
+        <item row="2" column="1">
+         <widget class="QRadioButton" name="radioButton_6">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -370,51 +364,99 @@ background-color: rgb(69, 255, 84);</string>
            <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
           </property>
           <property name="text">
-           <string>Top Spending Categories</string>
+           <string>Delayed Transaction Trends</string>
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QRadioButton" name="radioButton_5">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+          </property>
+          <property name="text">
+           <string>Balance Changes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QRadioButton" name="radioButton_2">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Monthly Transactions</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="dateEdit">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="dateTime">
+             <datetime>
+              <hour>0</hour>
+              <minute>0</minute>
+              <second>0</second>
+              <year>2023</year>
+              <month>1</month>
+              <day>1</day>
+             </datetime>
+            </property>
+            <property name="time">
+             <time>
+              <hour>0</hour>
+              <minute>0</minute>
+              <second>0</second>
+             </time>
+            </property>
+            <property name="maximumDateTime">
+             <datetime>
+              <hour>23</hour>
+              <minute>59</minute>
+              <second>59</second>
+              <year>9999</year>
+              <month>12</month>
+              <day>30</day>
+             </datetime>
+            </property>
+            <property name="displayFormat">
+             <string>MM/yyyy</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </item>
-      <item row="1" column="1">
-       <widget class="QDateEdit" name="dateEdit">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="dateTime">
-         <datetime>
-          <hour>0</hour>
-          <minute>0</minute>
-          <second>0</second>
-          <year>2023</year>
-          <month>1</month>
-          <day>1</day>
-         </datetime>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="2">
+      <item>
        <widget class="QPushButton" name="pushButton_3">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">font: 87 11pt &quot;Arial&quot;;
 gridline-color: rgb(100, 79, 69);
-background-color: rgb(69, 255, 84);</string>
+background-color: rgb(69, 255, 84);
+border: 1.5px solid black;
+font-weight: 600;</string>
         </property>
         <property name="text">
          <string>Display Graph</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Data Visualiaztion&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -423,9 +465,9 @@ background-color: rgb(69, 255, 84);</string>
     <widget class="QWidget" name="widget_2" native="true">
      <property name="geometry">
       <rect>
-       <x>900</x>
+       <x>910</x>
        <y>240</y>
-       <width>421</width>
+       <width>411</width>
        <height>161</height>
       </rect>
      </property>
@@ -457,6 +499,16 @@ background-color: rgb(69, 255, 84);</string>
            <property name="enabled">
             <bool>true</bool>
            </property>
+           <property name="maximumSize">
+            <size>
+             <width>234</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+border: 1px solid black;</string>
+           </property>
           </widget>
          </item>
          <item>
@@ -464,9 +516,17 @@ background-color: rgb(69, 255, 84);</string>
            <property name="enabled">
             <bool>true</bool>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>27</height>
+            </size>
+           </property>
            <property name="styleSheet">
             <string notr="true">font: 87 11pt &quot;Arial&quot;;
-background-color: rgb(69, 255, 84);</string>
+background-color: rgb(69, 255, 84);
+border: 1.5px solid black;
+font-weight: 600;</string>
            </property>
            <property name="text">
             <string>View Results</string>
@@ -644,6 +704,53 @@ background-color: rgb(69, 255, 84);</string>
       </item>
      </layout>
     </widget>
+    <widget class="QScrollArea" name="scrollArea_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>810</y>
+       <width>1301</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(216, 216, 216);</string>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1299</width>
+        <height>109</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Logs:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="textBrowser">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(236, 234, 234);
+ border: 2px solid black;
+</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -652,7 +759,7 @@ background-color: rgb(69, 255, 84);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1341</width>
+     <width>1333</width>
      <height>21</height>
     </rect>
    </property>
@@ -683,8 +790,6 @@ background-color: rgb(69, 255, 84);</string>
    </property>
   </action>
  </widget>
- <resources>
-  <include location="background.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

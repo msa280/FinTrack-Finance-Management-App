@@ -12,7 +12,7 @@ import pandas as pd
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QDropEvent, QDragEnterEvent
+from PyQt5.QtGui import QDropEvent, QDragEnterEvent, QCursor
 from PyQt5.QtWidgets import QTableWidgetItem
 
 from Graph import GraphWindow
@@ -22,13 +22,13 @@ class Ui_Title(object):
     def setupUi(self, Title):
         Title.setObjectName("Title")
         Title.setWindowModality(QtCore.Qt.WindowModal)
-        Title.resize(1341, 853)
+        Title.resize(1333, 942)
         Title.setStyleSheet("background-color: rgb(188, 188, 188)")
         self.centralwidget = QtWidgets.QWidget(Title)
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(0, 0, 1351, 841))
+        self.frame.setGeometry(QtCore.QRect(0, -20, 1351, 931))
         self.frame.setStyleSheet("background-color: rgb(188, 188, 188)")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -74,6 +74,7 @@ class Ui_Title(object):
         self.tableWidget.setEnabled(True)
         self.tableWidget.setStyleSheet("background-color: rgb(236, 234, 234);\n"
                                        "font: 75 8pt \"MS Shell Dlg 2\";\n"
+                                       " border: 1px solid black; \n"
                                        "")
         self.tableWidget.setAutoScrollMargin(16)
         self.tableWidget.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerItem)
@@ -121,74 +122,86 @@ class Ui_Title(object):
         self.verticalLayout_2.addWidget(self.label)
         self.listWidget = QtWidgets.QListWidget(self.verticalFrame)
         self.listWidget.setEnabled(True)
-        self.listWidget.setStyleSheet("background-color: rgb(235, 235, 235)")
+        self.listWidget.setStyleSheet("background-color: rgb(235, 235, 235);\n"
+                                      "border: 1px solid black;")
         self.listWidget.setObjectName("listWidget")
         self.verticalLayout_2.addWidget(self.listWidget)
         self.pushButton_2 = QtWidgets.QPushButton(self.verticalFrame)
         self.pushButton_2.setEnabled(True)
+        self.pushButton_2.setMinimumSize(QtCore.QSize(0, 27))
         self.pushButton_2.setStyleSheet("font: 87 11pt \"Arial\";\n"
-                                        "background-color: rgb(69, 255, 84);")
+                                        "background-color: rgb(69, 255, 84);\n"
+                                        "border: 1.5px solid black;\n"
+                                        "font-weight: 600;")
         self.pushButton_2.setObjectName("pushButton_2")
         self.verticalLayout_2.addWidget(self.pushButton_2)
         self.widget_3 = QtWidgets.QWidget(self.frame)
         self.widget_3.setEnabled(True)
-        self.widget_3.setGeometry(QtCore.QRect(20, 240, 451, 161))
+        self.widget_3.setGeometry(QtCore.QRect(20, 233, 441, 171))
         self.widget_3.setStyleSheet("background-color: rgb(216, 216, 216);")
         self.widget_3.setObjectName("widget_3")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.widget_3)
-        self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.widget_3)
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.label_4 = QtWidgets.QLabel(self.widget_3)
+        self.label_4.setEnabled(True)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout_5.addWidget(self.label_4)
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.radioButton_3 = QtWidgets.QRadioButton(self.widget_3)
-        self.radioButton_3.setEnabled(True)
-        self.radioButton_3.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
-        self.radioButton_3.setObjectName("radioButton_3")
-        self.gridLayout_2.addWidget(self.radioButton_3, 1, 0, 1, 1)
-        self.radioButton_2 = QtWidgets.QRadioButton(self.widget_3)
-        self.radioButton_2.setEnabled(True)
-        self.radioButton_2.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
-        self.radioButton_2.setObjectName("radioButton_2")
-        self.gridLayout_2.addWidget(self.radioButton_2, 0, 1, 1, 1)
-        self.radioButton_5 = QtWidgets.QRadioButton(self.widget_3)
-        self.radioButton_5.setEnabled(True)
-        self.radioButton_5.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
-        self.radioButton_5.setObjectName("radioButton_5")
-        self.gridLayout_2.addWidget(self.radioButton_5, 2, 0, 1, 1)
-        self.radioButton_6 = QtWidgets.QRadioButton(self.widget_3)
-        self.radioButton_6.setEnabled(True)
-        self.radioButton_6.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
-        self.radioButton_6.setObjectName("radioButton_6")
-        self.gridLayout_2.addWidget(self.radioButton_6, 2, 1, 1, 1)
-        self.radioButton = QtWidgets.QRadioButton(self.widget_3)
-        self.radioButton.setEnabled(True)
-        self.radioButton.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
-        self.radioButton.setObjectName("radioButton")
-        self.gridLayout_2.addWidget(self.radioButton, 1, 1, 1, 1)
         self.radioButton_4 = QtWidgets.QRadioButton(self.widget_3)
         self.radioButton_4.setEnabled(True)
         self.radioButton_4.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
         self.radioButton_4.setObjectName("radioButton_4")
         self.gridLayout_2.addWidget(self.radioButton_4, 0, 0, 1, 1)
-        self.gridLayout_3.addLayout(self.gridLayout_2, 2, 0, 1, 2)
+        self.radioButton_3 = QtWidgets.QRadioButton(self.widget_3)
+        self.radioButton_3.setEnabled(True)
+        self.radioButton_3.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
+        self.radioButton_3.setObjectName("radioButton_3")
+        self.gridLayout_2.addWidget(self.radioButton_3, 1, 0, 1, 1)
+        self.radioButton = QtWidgets.QRadioButton(self.widget_3)
+        self.radioButton.setEnabled(True)
+        self.radioButton.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
+        self.radioButton.setObjectName("radioButton")
+        self.gridLayout_2.addWidget(self.radioButton, 1, 1, 1, 1)
+        self.radioButton_6 = QtWidgets.QRadioButton(self.widget_3)
+        self.radioButton_6.setEnabled(True)
+        self.radioButton_6.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
+        self.radioButton_6.setObjectName("radioButton_6")
+        self.gridLayout_2.addWidget(self.radioButton_6, 2, 1, 1, 1)
+        self.radioButton_5 = QtWidgets.QRadioButton(self.widget_3)
+        self.radioButton_5.setEnabled(True)
+        self.radioButton_5.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
+        self.radioButton_5.setObjectName("radioButton_5")
+        self.gridLayout_2.addWidget(self.radioButton_5, 2, 0, 1, 1)
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.radioButton_2 = QtWidgets.QRadioButton(self.widget_3)
+        self.radioButton_2.setEnabled(True)
+        self.radioButton_2.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
+        self.radioButton_2.setObjectName("radioButton_2")
+        self.verticalLayout_3.addWidget(self.radioButton_2)
         self.dateEdit = QtWidgets.QDateEdit(self.widget_3)
         self.dateEdit.setEnabled(True)
         self.dateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(2023, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.dateEdit.setTime(QtCore.QTime(0, 0, 0))
+        self.dateEdit.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(9999, 12, 30), QtCore.QTime(23, 59, 59)))
         self.dateEdit.setCalendarPopup(True)
         self.dateEdit.setObjectName("dateEdit")
-        self.gridLayout_3.addWidget(self.dateEdit, 1, 1, 1, 1)
+        self.verticalLayout_3.addWidget(self.dateEdit)
+        self.gridLayout_2.addLayout(self.verticalLayout_3, 0, 1, 1, 1)
+        self.verticalLayout_5.addLayout(self.gridLayout_2)
         self.pushButton_3 = QtWidgets.QPushButton(self.widget_3)
+        self.pushButton_3.setMinimumSize(QtCore.QSize(0, 27))
         self.pushButton_3.setStyleSheet("font: 87 11pt \"Arial\";\n"
                                         "gridline-color: rgb(100, 79, 69);\n"
-                                        "background-color: rgb(69, 255, 84);")
+                                        "background-color: rgb(69, 255, 84);\n"
+                                        "border: 1.5px solid black;\n"
+                                        "font-weight: 600;")
         self.pushButton_3.setObjectName("pushButton_3")
-        self.gridLayout_3.addWidget(self.pushButton_3, 3, 0, 1, 2)
-        self.label_4 = QtWidgets.QLabel(self.widget_3)
-        self.label_4.setEnabled(True)
-        self.label_4.setObjectName("label_4")
-        self.gridLayout_3.addWidget(self.label_4, 1, 0, 1, 1)
+        self.verticalLayout_5.addWidget(self.pushButton_3)
         self.widget_2 = QtWidgets.QWidget(self.frame)
-        self.widget_2.setGeometry(QtCore.QRect(900, 240, 421, 161))
+        self.widget_2.setGeometry(QtCore.QRect(910, 240, 411, 161))
         self.widget_2.setStyleSheet("background-color: rgb(216, 216, 216);")
         self.widget_2.setObjectName("widget_2")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.widget_2)
@@ -206,12 +219,18 @@ class Ui_Title(object):
         self.horizontalLayout.addWidget(self.label_3)
         self.lineEdit = QtWidgets.QLineEdit(self.widget)
         self.lineEdit.setEnabled(True)
+        self.lineEdit.setMaximumSize(QtCore.QSize(234, 16777215))
+        self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+                                    "border: 1px solid black;")
         self.lineEdit.setObjectName("lineEdit")
         self.horizontalLayout.addWidget(self.lineEdit)
         self.pushButton = QtWidgets.QPushButton(self.widget)
         self.pushButton.setEnabled(True)
+        self.pushButton.setMinimumSize(QtCore.QSize(120, 27))
         self.pushButton.setStyleSheet("font: 87 11pt \"Arial\";\n"
-                                      "background-color: rgb(69, 255, 84);")
+                                      "background-color: rgb(69, 255, 84);\n"
+                                      "border: 1.5px solid black;\n"
+                                      "font-weight: 600;")
         self.pushButton.setObjectName("pushButton")
         self.horizontalLayout.addWidget(self.pushButton)
         self.verticalLayout_4.addWidget(self.widget)
@@ -280,12 +299,33 @@ class Ui_Title(object):
         self.checkBox_9.setObjectName("checkBox_9")
         self.gridLayout.addWidget(self.checkBox_9, 2, 1, 1, 1)
         self.verticalLayout_4.addLayout(self.gridLayout)
+        self.scrollArea_2 = QtWidgets.QScrollArea(self.frame)
+        self.scrollArea_2.setGeometry(QtCore.QRect(20, 810, 1301, 111))
+        self.scrollArea_2.setStyleSheet("background-color: rgb(216, 216, 216);")
+        self.scrollArea_2.setWidgetResizable(True)
+        self.scrollArea_2.setObjectName("scrollArea_2")
+        self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1299, 109))
+        self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents_2)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.label_6 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
+        self.label_6.setStyleSheet("")
+        self.label_6.setObjectName("label_6")
+        self.horizontalLayout_2.addWidget(self.label_6)
+        self.textBrowser = QtWidgets.QTextBrowser(self.scrollAreaWidgetContents_2)
+        self.textBrowser.setStyleSheet("background-color: rgb(236, 234, 234);\n"
+                                       " border: 2px solid black;\n"
+                                       "")
+        self.textBrowser.setObjectName("textBrowser")
+        self.horizontalLayout_2.addWidget(self.textBrowser)
+        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         Title.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(Title)
         self.statusbar.setObjectName("statusbar")
         Title.setStatusBar(self.statusbar)
         self.menuBar = QtWidgets.QMenuBar(Title)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1341, 21))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1333, 21))
         self.menuBar.setStyleSheet("background-color: rgb(194, 194, 194) ")
         self.menuBar.setObjectName("menuBar")
         self.menuSettings = QtWidgets.QMenu(self.menuBar)
@@ -339,15 +379,16 @@ class Ui_Title(object):
                                       "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:600; color:#15008f;\">Drop Bank Statement</span></p><p align=\"center\"><span style=\" font-size:12pt; color:#15008f;\">(Supported: .xlsx)</span></p></body></html>"))
         self.pushButton_2.setText(_translate("Title", "Submit"))
 
-        self.radioButton_3.setText(_translate("Title", "Transaction Trends"))
-        self.radioButton_2.setText(_translate("Title", "Monthly Transactions"))
-        self.radioButton_5.setText(_translate("Title", "Balance Changes"))
-        self.radioButton_6.setText(_translate("Title", "Delayed Transaction Trends"))
-        self.radioButton.setText(_translate("Title", "Top Payment Methods"))
-        self.radioButton_4.setText(_translate("Title", "Top Spending Categories"))
-        self.pushButton_3.setText(_translate("Title", "Display Graph"))
         self.label_4.setText(_translate("Title",
                                         "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:600;\">Data Visualiaztion</span></p></body></html>"))
+        self.radioButton_4.setText(_translate("Title", "Top Spending Categories"))
+        self.radioButton_3.setText(_translate("Title", "Transaction Trends"))
+        self.radioButton.setText(_translate("Title", "Top Payment Methods"))
+        self.radioButton_6.setText(_translate("Title", "Delayed Transaction Trends"))
+        self.radioButton_5.setText(_translate("Title", "Balance Changes"))
+        self.radioButton_2.setText(_translate("Title", "Monthly Transactions"))
+        self.dateEdit.setDisplayFormat(_translate("Title", "MM/yyyy"))
+        self.pushButton_3.setText(_translate("Title", "Display Graph"))
         self.label_3.setText(_translate("Title",
                                         "<html><head/><body><p align=\"right\"><span style=\" font-size:10pt; font-weight:600;\">Search:</span></p></body></html>"))
         self.pushButton.setText(_translate("Title", "View Results"))
@@ -363,21 +404,61 @@ class Ui_Title(object):
         self.checkBox.setText(_translate("Title", "T. Type"))
         self.checkBox_12.setText(_translate("Title", "Foreign Currency "))
         self.checkBox_9.setText(_translate("Title", "References"))
+        self.label_6.setText(_translate("Title",
+                                        "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:600;\">Logs:</span></p></body></html>"))
         self.menuSettings.setTitle(_translate("Title", "File"))
         self.actionSave.setText(_translate("Title", "Save "))
         self.actionQuit.setText(_translate("Title", "Quit"))
 
-        self.active_buttons()
+        self.activate_features()
 
+    def __init__(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = GraphWindow()
+        self.ui.setupUi(self.window)
+        # Create an in-memory SQLite database
+        self.conn = sqlite3.connect(':memory:')
+        self.results = None
 
-    def active_buttons(self):
+    def activate_features(self):
         self.press_submit()
         self.press_display_graph()
         self.control_table_columns()
         self.control_file_drag_drop()
+        self.button_hover_hand_effect()
+
+    def button_hover_hand_effect(self):
+        self.pushButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton_2.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton_3.setCursor(QCursor(Qt.PointingHandCursor))
 
     def press_display_graph(self):
-        self.pushButton_3.clicked.connect(lambda: self.open_window())
+        self.pushButton_3.clicked.connect(self.control_radio_buttons)
+
+    def control_radio_buttons(self):
+        if self.radioButton_4.isChecked():
+            self.query_spending_all_file()
+            self.open_window("tsc")
+        elif self.radioButton.isChecked():
+            self.query_top_payment_methods()
+            self.open_window("tpm")
+        elif self.radioButton_2.isChecked():
+            self.query_monthly_spending()
+            self.open_window("ms")
+
+
+    def open_window(self, radiobtn):
+        if (radiobtn == "tsc") and (self.results is not None):
+            self.ui.display_pie_chart("tsc", self.results)
+        elif (radiobtn == "tpm") and (self.results is not None):
+            self.ui.display_pie_chart("tpm", self.results)
+        elif (radiobtn == "ms") and (self.results is not None):
+            selected_date = self.dateEdit.date().toPyDate()
+            selected_month_year = selected_date.strftime("%Y-%m")
+            self.ui.display_pie_chart("ms", self.results, selected_month_year)
+
+        self.window.show()
+
 
     def press_submit(self):
         self.pushButton_2.clicked.connect(self.submit_button_clicked)
@@ -423,31 +504,64 @@ class Ui_Title(object):
         # Read Excel data into a DataFrame
         df = pd.read_excel(path)
         # df['Item Type'] = df['Code'].apply(self.classify_transaction)
-        # Create an in-memory SQLite database
-        conn = sqlite3.connect(':memory:')
-        df.to_sql('my_table', conn, index=False)
-        return conn
+        df.to_sql('my_table', self.conn, index=False)
 
-    def submit_button_clicked(self):
+    def read_and_load_uploaded_file(self):
         selected_item = self.listWidget.currentItem()
         if selected_item:
             file_path = selected_item.text()
-            conn = self.read_and_connect(file_path)
-            results = self.query_load_table(conn)
-            self.populate_table(results)
+            self.read_and_connect(file_path)
 
-    def query_load_table(self, conn):
+    def submit_button_clicked(self):
+        if self.listWidget.count() == 0:
+            self.textBrowser.append('<font color="red"><b>Error: Please add a valid ANZ excel file.</b></font>')
+        elif not self.listWidget.selectedItems():
+            self.textBrowser.append('<font color="red"><b>Error: Now please select the file you want to assess.</b></font>')
+        else:
+            self.read_and_load_uploaded_file()
+            self.query_load_table()
+            self.populate_table(self.results)
+
+    def query_load_table(self):
         # Run SQL queries using pandas and SQLite
         query = '''SELECT * FROM my_table'''
-        results = pd.read_sql_query(query, conn)
-        return results
+        self.results = pd.read_sql_query(query, self.conn)
 
-    def open_window(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = GraphWindow()
-        self.ui.setupUi(self.window)
-        self.ui.display_random_pie_chart()
-        self.window.show()
+    def query_top_payment_methods(self):
+        print("Pressed!!")
+        query = '''SELECT Type, COUNT(Type) AS TotalTypes
+                       FROM my_table
+                       GROUP BY Type
+                       ORDER BY TotalTypes DESC
+                       LIMIT 10;'''
+        self.results = pd.read_sql_query(query, self.conn)
+
+
+    def query_spending_all_file(self):
+        query = '''SELECT Code, COUNT(*) AS TotalCount, SUM(Amount) AS TotalAmount
+                                FROM my_table
+                                WHERE Amount < 0
+                                GROUP BY Code
+                                ORDER BY TotalAmount
+                                LIMIT 10;
+                '''
+        self.results = pd.read_sql_query(query, self.conn)
+        for i, row in self.results.iterrows():
+            print(row)
+
+
+    def query_monthly_spending(self):
+        selected_date = self.dateEdit.date().toPyDate()
+        selected_month_year = selected_date.strftime("%Y-%m")
+        query = f'''SELECT Code, COUNT(*) AS TotalCount, SUM(Amount) AS TotalAmount
+                        FROM my_table
+                        WHERE strftime('%Y-%m', `Transaction Date`) = '{selected_month_year}'
+                        AND Amount < 0
+                        GROUP BY Code
+                        ORDER BY TotalAmount
+                        LIMIT 10;
+                    '''
+        self.results = pd.read_sql_query(query, self.conn)
 
     # Function to classify transactions
     def classify_transaction(self, code):
@@ -478,15 +592,14 @@ class Ui_Title(object):
         selected_item = self.listWidget.currentItem()
         if selected_item:
             file_path = selected_item.text()
-            conn = self.read_and_connect(file_path)
+            self.read_and_connect(file_path)
             query = '''SELECT "Code", COUNT(*) AS CodeCount
                 FROM my_table
                 GROUP BY "Code"
                 ORDER BY CodeCount DESC
                 LIMIT 12
             '''
-            results = pd.read_sql_query(query, conn)
-            conn.close()
+            self.results = pd.read_sql_query(query, self.conn)
 
     def populate_table(self, results):
         # Set the table widget dimensions
