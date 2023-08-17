@@ -412,6 +412,7 @@ class Ui_Title(object):
 
         self.activate_features()
 
+
     def __init__(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = GraphWindow()
@@ -563,6 +564,19 @@ class Ui_Title(object):
                     '''
         self.results = pd.read_sql_query(query, self.conn)
 
+
+    def query_transaction_trends_all_time(self):
+        query = f'''SELECT Code, COUNT(*) AS TotalCount, SUM(Amount) AS TotalAmount
+                        FROM my_table
+                        WHERE strftime('%Y-%m', `Transaction Date`) = '{selected_month_year}'
+                        AND Amount < 0
+                        GROUP BY Code
+                        ORDER BY TotalAmount
+                        LIMIT 10;
+                    '''
+        self.results = pd.read_sql_query(query, self.conn)
+
+
     # Function to classify transactions
     def classify_transaction(self, code):
         # Your classification logic here
@@ -587,6 +601,7 @@ class Ui_Title(object):
             self.tableWidget.setColumnHidden(col, False)  # 2 corresponds to Checked state
         else:
             self.tableWidget.setColumnHidden(col, True)  # 2 corresponds to Checked state
+
 
     def display_monthly_expenditures(self):
         selected_item = self.listWidget.currentItem()
